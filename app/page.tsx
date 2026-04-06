@@ -14,6 +14,28 @@ const DEFAULT_VALUES: SignatureValues = {
 
 type CopyState = "idle" | "copied" | "error";
 
+// Copy signature as rich text (text/html) so it can be pasted directly into email clients
+async function copyAsRichText(html: string): Promise<void> {
+  if (typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
+    const blob = new Blob([html], { type: "text/html" });
+    await navigator.clipboard.write([new ClipboardItem({ "text/html": blob })]);
+  } else {
+    // Fallback: render into hidden element, select, execCommand copy
+    const el = document.createElement("div");
+    el.style.cssText = "position:fixed;left:-9999px;top:0;opacity:0;";
+    el.innerHTML = html;
+    document.body.appendChild(el);
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+    document.execCommand("copy");
+    sel?.removeAllRanges();
+    document.body.removeChild(el);
+  }
+}
+
 export default function GeneratorPage() {
   const [values, setValues] = useState<SignatureValues>(DEFAULT_VALUES);
   const [copyState, setCopyState] = useState<CopyState>("idle");
@@ -28,7 +50,7 @@ export default function GeneratorPage() {
 
   const handleCopy = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(signatureHtml);
+      await copyAsRichText(signatureHtml);
       setCopyState("copied");
       setTimeout(() => setCopyState("idle"), 2500);
     } catch {
@@ -240,79 +262,56 @@ export default function GeneratorPage() {
                   Signatur kopieren &amp; einrichten
                 </h2>
                 <p className="text-sm text-gray-500 mb-5 ml-8">
-                  Kopiere den HTML-Code und füge ihn in deinen E-Mail Client ein.
+                  Klick auf den Button — dann einfach in deinem E-Mail Programm einfügen (Strg+V / Cmd+V).
                 </p>
 
                 {/* Steps */}
                 <div className="mb-5 space-y-2 ml-2">
                   {[
-                    "HTML-Code unten kopieren",
-                    "In deinem E-Mail Programm → Einstellungen → Signatur öffnen",
-                    "\"HTML einfügen\" oder Editor öffnen und den Code einfügen",
-                    "Speichern – fertig!",
+                    { text: 'Auf "Signatur kopieren" klicken', highlight: false },
+                    { text: "E-Mail Programm öffnen → Einstellungen → Signatur", highlight: false },
+                    { text: "Signatur-Feld anklicken und einfügen (Strg+V / Cmd+V)", highlight: true },
+                    { text: "Speichern – fertig!", highlight: false },
                   ].map((step, i) => (
                     <div key={i} className="flex items-start gap-3 text-sm text-gray-600">
                       <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-100 text-gray-500 text-xs font-semibold flex items-center justify-center mt-0.5">
                         {i + 1}
                       </span>
-                      {step}
+                      <span className={step.highlight ? "font-medium text-gray-800" : ""}>{step.text}</span>
                     </div>
                   ))}
                 </div>
 
-                {/* Copy buttons */}
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <button
-                    onClick={handleCopy}
-                    disabled={!isReady}
-                    className="btn-primary flex-1"
-                    title={!isReady ? "Bitte alle Felder ausfüllen" : ""}
-                  >
-                    {copyState === "copied" ? (
-                      <>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                        </svg>
-                        Kopiert!
-                      </>
-                    ) : copyState === "error" ? (
-                      <>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        Fehler – bitte manuell kopieren
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                        HTML kopieren
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={() => setShowHtml((v) => !v)}
-                    className="btn-secondary"
-                  >
-                    {showHtml ? (
-                      <>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                        </svg>
-                        Ausblenden
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
-                        HTML anzeigen
-                      </>
-                    )}
-                  </button>
-                </div>
+                {/* Primary copy button */}
+                <button
+                  onClick={handleCopy}
+                  disabled={!isReady}
+                  className="btn-primary w-full text-base py-3"
+                  title={!isReady ? "Bitte alle Felder ausfüllen" : ""}
+                >
+                  {copyState === "copied" ? (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Kopiert! Jetzt in E-Mail Programm einfügen
+                    </>
+                  ) : copyState === "error" ? (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      Fehler – HTML unten manuell kopieren
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      Signatur kopieren
+                    </>
+                  )}
+                </button>
 
                 {!isReady && (
                   <p className="mt-3 text-xs text-amber-600 flex items-center gap-1.5">
@@ -323,20 +322,32 @@ export default function GeneratorPage() {
                   </p>
                 )}
 
-                {/* HTML textarea (hidden by default) */}
-                {showHtml && (
-                  <div className="mt-4">
-                    <textarea
-                      readOnly
-                      value={signatureHtml}
-                      onClick={(e) => (e.target as HTMLTextAreaElement).select()}
-                      className="w-full h-48 rounded-lg border border-gray-200 bg-gray-50 p-3 font-mono text-xs text-gray-600 resize-none outline-none focus:border-[#e30613] focus:ring-2 focus:ring-[#e30613]/10 transition-all"
-                    />
-                    <p className="mt-1.5 text-xs text-gray-400">
-                      Klicke ins Textfeld, um den gesamten Code zu markieren.
-                    </p>
-                  </div>
-                )}
+                {/* HTML fallback toggle */}
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <button
+                    onClick={() => setShowHtml((v) => !v)}
+                    className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1.5 transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    {showHtml ? "HTML-Code ausblenden" : "HTML-Code anzeigen (für Fortgeschrittene)"}
+                  </button>
+
+                  {showHtml && (
+                    <div className="mt-3">
+                      <textarea
+                        readOnly
+                        value={signatureHtml}
+                        onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+                        className="w-full h-40 rounded-lg border border-gray-200 bg-gray-50 p-3 font-mono text-xs text-gray-600 resize-none outline-none focus:border-[#e30613] focus:ring-2 focus:ring-[#e30613]/10 transition-all"
+                      />
+                      <p className="mt-1.5 text-xs text-gray-400">
+                        Klicke ins Textfeld zum Markieren. Für E-Mail Clients mit HTML-Editor.
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
