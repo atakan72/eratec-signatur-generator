@@ -9,10 +9,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow static assets
+  // Allow static assets and public icons (needed for email signature images)
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
+    pathname.startsWith("/icons") ||
     pathname.startsWith("/api/logout")
   ) {
     return NextResponse.next();
