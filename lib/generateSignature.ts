@@ -6,6 +6,9 @@ export interface SignatureValues {
   email: string;
 }
 
+// Base URL for hosted icon assets — update if domain changes
+const ICON_BASE = "https://signatur-vert.vercel.app/icons";
+
 export function generateSignatureHtml(values: SignatureValues): string {
   const fullName =
     `${values.firstName} ${values.lastName}`.trim() || "Vorname Nachname";
@@ -105,36 +108,36 @@ export function generateSignatureHtml(values: SignatureValues): string {
 
                             <!-- LinkedIn -->
                             <td style="padding-right:7px;">
-                              <a href="https://www.linkedin.com/company/era-tec-gmbh/" style="display:block;text-decoration:none;opacity:1;">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFkMWQxYiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNi45NCA1YTIgMiAwIDExLTQtLjAwMkEyIDIgMCAwMTYuOTQgNXpNNyA4LjQ4SDNWMjFoNFY4LjQ4em02LjMyIDBIOS4zNFYyMWgzLjk0di02LjU3YzAtMy42NiA0Ljc3LTQgNC43NyAwVjIxSDIydi03LjkzYzAtNi4xNy03LjA2LTUuOTQtOC43Mi0yLjkxbC4wNC0xLjY4eiIvPjwvc3ZnPg==" width="16" height="16" alt="LinkedIn" style="display:block;border:0;" />
+                              <a href="https://www.linkedin.com/company/era-tec-gmbh/" style="display:block;text-decoration:none;">
+                                <img src="${ICON_BASE}/linkedin.png" width="16" height="16" alt="LinkedIn" style="display:block;border:0;" />
                               </a>
                             </td>
 
                             <!-- Instagram -->
                             <td style="padding-right:7px;">
-                              <a href="https://www.instagram.com/eratec.de/" style="display:block;text-decoration:none;opacity:1;">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFkMWQxYiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMi4xNjNjMy4yMDQgMCAzLjU4NC4wMTIgNC44NS4wNyAzLjI1Mi4xNDggNC43NzEgMS42OTEgNC45MTkgNC45MTkuMDU4IDEuMjY1LjA2OSAxLjY0NS4wNjkgNC44NDkgMCAzLjIwNS0uMDEyIDMuNTg0LS4wNjkgNC44NDktLjE0OSAzLjIyNS0xLjY2NCA0Ljc3MS00LjkxOSA0LjkxOS0xLjI2Ni4wNTgtMS42NDQuMDctNC44NS4wNy0zLjIwNCAwLTMuNTg0LS4wMTItNC44NDktLjA3LTMuMjYtLjE0OS00Ljc3MS0xLjY5OS00LjkxOS00LjkyLS4wNTgtMS4yNjUtLjA3LTEuNjQ0LS4wNy00Ljg0OSAwLTMuMjA0LjAxMy0zLjU4My4wNy00Ljg0OS4xNDktMy4yMjcgMS42NjQtNC43NzEgNC45MTktNC45MTkgMS4yNjYtLjA1NyAxLjY0NS0uMDY5IDQuODQ5LS4wNjl6TTEyIDBDOC43NDEgMCA4LjMzMy4wMTQgNy4wNTMuMDcyIDIuNjk1LjI3Mi4yNzMgMi42OS4wNzMgNy4wNTIuMDE0IDguMzMzIDAgOC43NDEgMCAxMmMwIDMuMjU5LjAxNCAzLjY2OC4wNzIgNC45NDguMiA0LjM1OCAyLjYxOCA2Ljc4IDYuOTggNi45OEM4LjMzMyAyMy45ODYgOC43NDEgMjQgMTIgMjRjMy4yNTkgMCAzLjY2OC0uMDE0IDQuOTQ4LS4wNzIgNC4zNTQtLjIgNi43ODItMi42MTggNi45NzktNi45OC4wNTktMS4yOC4wNzMtMS42ODkuMDczLTQuOTQ4IDAtMy4yNTktLjAxNC0zLjY2Ny0uMDcyLTQuOTQ3LS4xOTYtNC4zNTQtMi42MTctNi43OC02Ljk3OS02Ljk4QzE1LjY2OC4wMTQgMTUuMjU5IDAgMTIgMHptMCA1LjgzOGE2LjE2MiA2LjE2MiAwIDEwMCAxMi4zMjQgNi4xNjIgNi4xNjIgMCAwMDAtMTIuMzI0ek0xMiAxNmE0IDQgMCAxMTAtOCA0IDQgMCAwMTAgOHptNi40MDYtMTEuODQ1YTEuNDQgMS40NCAwIDEwMCAyLjg4MSAxLjQ0IDEuNDQgMCAwMDAtMi44ODF6Ii8+PC9zdmc+" width="16" height="16" alt="Instagram" style="display:block;border:0;" />
+                              <a href="https://www.instagram.com/eratec.de/" style="display:block;text-decoration:none;">
+                                <img src="${ICON_BASE}/instagram.png" width="16" height="16" alt="Instagram" style="display:block;border:0;" />
                               </a>
                             </td>
 
                             <!-- Facebook -->
                             <td style="padding-right:7px;">
-                              <a href="https://www.facebook.com/era.tec.3/" style="display:block;text-decoration:none;opacity:1;">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFkMWQxYiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjQgMTIuMDczQzI0IDUuNDA1IDE4LjYyNyAwIDEyIDBTMCA1LjQwNSAwIDEyLjA3M0MwIDE4LjEgNC4zODggMjMuMDk0IDEwLjEyNSAyNHYtOC40MzdINy4wNzh2LTMuNDloMy4wNDdWOS40MjhjMC0zLjAwNyAxLjc5Mi00LjY2OSA0LjUzMy00LjY2OSAxLjMxMiAwIDIuNjg2LjIzNSAyLjY4Ni4yMzV2Mi45NTNoLTEuNTE0Yy0xLjQ5MSAwLTEuOTU2LjkyNS0xLjk1NiAxLjg3NHYyLjI1aDMuMzI4bC0uNTMyIDMuNDloLTIuNzk2VjI0QzE5LjYxMiAyMy4wOTQgMjQgMTguMSAyNCAxMi4wNzN6Ii8+PC9zdmc+" width="16" height="16" alt="Facebook" style="display:block;border:0;" />
+                              <a href="https://www.facebook.com/era.tec.3/" style="display:block;text-decoration:none;">
+                                <img src="${ICON_BASE}/facebook.png" width="16" height="16" alt="Facebook" style="display:block;border:0;" />
                               </a>
                             </td>
 
                             <!-- YouTube -->
                             <td style="padding-right:7px;">
-                              <a href="https://www.youtube.com/@eratecgermany" style="display:block;text-decoration:none;opacity:1;">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFkMWQxYiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjMuNDk4IDYuMTg2YTMuMDE2IDMuMDE2IDAgMDAtMi4xMjItMi4xMzZDMTkuNTA1IDMuNTQ1IDEyIDMuNTQ1IDEyIDMuNTQ1cy03LjUwNSAwLTkuMzc3LjUwNUEzLjAxNiAzLjAxNiAwIDAwLjUwMiA2LjE4NkMwIDguMDcgMCAxMiAwIDEyczAgMy45My41MDIgNS44MTRhMy4wMTYgMy4wMTYgMCAwMDIuMTIyIDIuMTM2QzQuNDk1IDIwLjQ1NSAxMiAyMC40NTUgMTIgMjAuNDU1czcuNTA1IDAgOS4zNzctLjUwNWEzLjAxNSAzLjAxNSAwIDAwMi4xMjItMi4xMzZDMjQgMTUuOTMgMjQgMTIgMjQgMTJzMC0zLjkzLS41MDItNS44MTR6TTkuNTQ1IDE1LjU2OFY4LjQzMkwxNS44MTggMTJsLTYuMjczIDMuNTY4eiIvPjwvc3ZnPg==" width="16" height="16" alt="YouTube" style="display:block;border:0;" />
+                              <a href="https://www.youtube.com/@eratecgermany" style="display:block;text-decoration:none;">
+                                <img src="${ICON_BASE}/youtube.png" width="16" height="16" alt="YouTube" style="display:block;border:0;" />
                               </a>
                             </td>
 
                             <!-- TikTok -->
                             <td>
-                              <a href="https://www.tiktok.com/@eratec.de" style="display:block;text-decoration:none;opacity:1;">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFkMWQxYiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTkuNTkgNi42OWE0LjgzIDQuODMgMCAwMS0zLjc3LTQuMjVWMmgtMy40NXYxMy42N2EyLjg5IDIuODkgMCAwMS0yLjg4IDIuNSAyLjg5IDIuODkgMCAwMS0yLjg5LTIuODkgMi44OSAyLjg5IDAgMDEyLjg5LTIuODljLjI4IDAgLjU0LjA0Ljc5LjFWOS4wMWE2LjI3IDYuMjcgMCAwMC0uNzktLjA1IDYuMzQgNi4zNCAwIDAwLTYuMzQgNi4zNCA2LjM0IDYuMzQgMCAwMDYuMzQgNi4zNCA2LjM0IDYuMzQgMCAwMDYuMzMtNi4zNFY4LjY5YTguMTggOC4xOCAwIDAwNC43OCAxLjUyVjYuNzhhNC44NSA0Ljg1IDAgMDEtMS4wMS0uMDl6Ii8+PC9zdmc+" width="16" height="16" alt="TikTok" style="display:block;border:0;" />
+                              <a href="https://www.tiktok.com/@eratec.de" style="display:block;text-decoration:none;">
+                                <img src="${ICON_BASE}/tiktok.png" width="16" height="16" alt="TikTok" style="display:block;border:0;" />
                               </a>
                             </td>
 
