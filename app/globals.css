@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .input-field {
+    @apply w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm
+           transition-all duration-150 outline-none
+           placeholder:text-gray-400
+           focus:border-[#e30613] focus:ring-2 focus:ring-[#e30613]/10;
+  }
+
+  .label {
+    @apply block text-xs font-semibold tracking-wide text-gray-500 uppercase mb-1.5;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[#e30613] px-5 py-2.5
+           text-sm font-semibold text-white shadow-sm transition-all duration-150
+           hover:bg-[#c8050f] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5
+           text-sm font-medium text-gray-700 shadow-sm transition-all duration-150
+           hover:bg-gray-50 hover:border-gray-300 active:scale-[0.98];
+  }
+}
